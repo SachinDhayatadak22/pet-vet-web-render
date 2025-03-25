@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import chatImage from '../../public/Chat_SVG.png';
+// import chatImage from '../../public/Chat_SVG.png';
 import { useLocation } from 'react-router-dom';
 
 const ChatBotManager2 = () => {
@@ -41,7 +41,7 @@ const ChatBotManager2 = () => {
     <div className="fixed bottom-4 right-3">
       {shouldRenderChatBot && (
         <button onClick={toggleChat} className="rounded-full">
-          <img src={chatImage} alt="Chatbot" className="w-14 h-14 me-3" />
+          {/* <img src={chatImage} alt="Chatbot" className="w-14 h-14 me-3" /> */}
         </button>
       )}
     </div>
