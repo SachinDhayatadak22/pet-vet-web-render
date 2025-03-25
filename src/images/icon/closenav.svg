@@ -1,0 +1,24 @@
+<svg width="23" height="19" viewBox="0 0 23 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="23" height="19" fill="#1E1E1E"/>
+<g id="Admin">
+<path d="M-3782 -670C-3782 -671.104 -3781.1 -672 -3780 -672H8678C8679.1 -672 8680 -671.105 8680 -670V5205C8680 5206.1 8679.1 5207 8678 5207H-3780C-3781.1 5207 -3782 5206.1 -3782 5205V-670Z" fill="#444444"/>
+<path d="M-3780 -671H8678V-673H-3780V-671ZM8679 -670V5205H8681V-670H8679ZM8678 5206H-3780V5208H8678V5206ZM-3781 5205V-670H-3783V5205H-3781ZM-3780 5206C-3780.55 5206 -3781 5205.55 -3781 5205H-3783C-3783 5206.66 -3781.66 5208 -3780 5208V5206ZM8679 5205C8679 5205.55 8678.55 5206 8678 5206V5208C8679.66 5208 8681 5206.66 8681 5205H8679ZM8678 -671C8678.55 -671 8679 -670.552 8679 -670H8681C8681 -671.657 8679.66 -673 8678 -673V-671ZM-3780 -673C-3781.66 -673 -3783 -671.657 -3783 -670H-3781C-3781 -670.552 -3780.55 -671 -3780 -671V-673Z" fill="white" fill-opacity="0.1"/>
+<g id="Dashboard for Hospital Admin" clip-path="url(#clip0_0_1)">
+<rect width="1728" height="1149" transform="translate(-258 -63)" fill="#F5F7F9"/>
+<g id="Admin_2">
+<g id="Group 1556235513">
+<rect id="Rectangle 24929" x="-259" y="-64" width="360" height="1205" fill="white" stroke="#E9EBED" stroke-width="2"/>
+<g id="Group 1556235512">
+<path id="Vector" d="M9.39999 1L0.999994 9.5L9.39999 18" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M22 1L13.6 9.5L22 18" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_0_1">
+<rect width="1728" height="1149" fill="white" transform="translate(-258 -63)"/>
+</clipPath>
+</defs>
+</svg>
