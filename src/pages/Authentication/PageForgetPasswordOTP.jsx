@@ -17,8 +17,6 @@ const PageForgetPasswordOTP = () => {
   const { token } = useParams();
   const { email } = location.state || {};
 
-  console.log(token);
-
   useEffect(() => {
     if (timer > 0) {
       const interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
@@ -94,8 +92,7 @@ const PageForgetPasswordOTP = () => {
 
     setLoading(true);
     try {
-      const response = await apiPOST("admin/forget-password-otp", { token, otp: otp.join('') });
-      console.log(response);
+      const response = await apiPOST("/admin/forget-password-otp", { token, otp: otp.join('') });
       
       if (response?.status === 200) {
         navigate(`/reset-password/${token}`);
@@ -136,7 +133,7 @@ const PageForgetPasswordOTP = () => {
               onChange={(e) => handleOtpChange(e.target, index)}
               onKeyDown={(e) => handleKeyDown(e, index)}
               onPaste={index === 0 ? handlePaste : null}
-              className="w-10 h-12 px-[16px] py-[10px] rounded-lg bg-primary text-textcolor outline-none focus:ring-2 focus:ring-secondary"
+              className="w-12 h-12 px-[18px] py-[10px] rounded-lg bg-primary text-textcolor outline-none focus:ring-2 focus:ring-secondary"
             />
           ))}
         </div>

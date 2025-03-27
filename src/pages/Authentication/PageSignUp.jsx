@@ -20,14 +20,18 @@ const PageSignUp = () => {
   const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
   const passwordRegex =
     /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-  const [userDetails, setUserDetails] = useState({
-    clinicName: '',
+
+  const initialState = {
+    clinicname: '',
     email: '',
     password: '',
     confirmPassword: '',
-  });
+  }
+
+  const [userDetails, setUserDetails] = useState(initialState);
+
   const [errorState, setErrorState] = useState({
-    clinicName: false,
+    clinicname: false,
     email: false,
     password: false,
     confirmPassword: false,
@@ -36,7 +40,7 @@ const PageSignUp = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === 'clinicName') {
+    if (name === 'clinicname') {
       if (!nameRegexWithEmtyString.test(value)) {
         return;
       }
@@ -48,7 +52,7 @@ const PageSignUp = () => {
   };
 
   const checkValidation = (userDetails) => {
-    const { email, password, clinicName, confirmPassword } =
+    const { email, password, clinicname, confirmPassword } =
       userDetails;
 
     if (!email || !password) {
@@ -57,10 +61,10 @@ const PageSignUp = () => {
       setLoading(false);
       return false;
     }
-    if (!nameRegex.test(clinicName)) {
+    if (!nameRegex.test(clinicname)) {
       setErrorMessage('Enter first name');
       setErrorState({
-        clinicName: true,
+        clinicname: true,
         email: false,
         password: false,
       });
@@ -82,7 +86,7 @@ const PageSignUp = () => {
       setErrorState({
         email: false,
         password: true,
-        clinicName: false,
+        clinicname: false,
         confirmPassword: false,
       });
       setLoading(false);
@@ -95,7 +99,7 @@ const PageSignUp = () => {
       setErrorState({
         email: false,
         confirmPassword: true,
-        clinicName: false,
+        clinicname: false,
         password: false,
       });
       setLoading(false);
@@ -107,7 +111,7 @@ const PageSignUp = () => {
       setErrorState({
         email: false,
         confirmPassword: true,
-        clinicName: false,
+        clinicname: false,
         password: true,
       });
       return false;
@@ -117,7 +121,7 @@ const PageSignUp = () => {
       email: false,
       password: false,
       confirmPassword: false,
-      clinicName: false,
+      clinicname: false,
     });
     return true;
   };
@@ -130,19 +134,19 @@ const PageSignUp = () => {
 
       if (validated) {
         const response = await apiPOST(`/admin/register-admin`, {
-          clinicName: userDetails.clinicName,
+          clinicname: userDetails.clinicname,
           email: userDetails.email,
           password: userDetails.password,
           role: "admin"
         });
-
         const result = response?.data;
-        console.log('result', result);
-
+        
         if (result?.status) {
-          // localStorage.setItem('accesstoken', result.data.tokens.access.token);
-          // localStorage.setItem('refreshToken', result.data.tokens.refresh.token);
-          navigate('/login/admin');
+          const token = result?.data?.otpResult?.data?.token;
+          const email = userDetails.email
+          navigate(`/verify-email-registration/${token}`, {
+            state: { email },
+          });
           toast.success('Signup Successful');
         } else {
           toast.error(result?.message || 'Failed to Signup');
@@ -154,6 +158,7 @@ const PageSignUp = () => {
       console.error('error', error);
       setErrorMessage('An error occurred. Please try again.');
     } finally {
+      setUserDetails(initialState);
       setLoading(false);
     }
   };
@@ -178,13 +183,12 @@ const PageSignUp = () => {
         <form onSubmit={handleSubmit}>
           <input
             type="text"
-            name="clinicName"
+            name="clinicname"
             placeholder="Clinic Name"
-            value={userDetails.clinicName}
+            value={userDetails.clinicname}
             onChange={(e) => handleChange(e)}
-            className={`w-full px-[16px] py-[10px] text-[14px] font-medium rounded-lg bg-primary text-textcolor outline-none focus:ring-2 focus:ring-secondary ${
-              errorState.clinicName ? 'border border-red-700' : ''
-            }`}
+            className={`w-full px-[16px] py-[10px] text-[14px] font-medium rounded-lg bg-primary text-textcolor outline-none focus:ring-2 focus:ring-secondary ${errorState.clinicname ? 'border border-red-700' : ''
+              }`}
           />
           <div className="mt-[20px]">
             <label className="sr-only">Email</label>
@@ -194,9 +198,8 @@ const PageSignUp = () => {
               placeholder="Email"
               value={userDetails.email}
               onChange={(e) => handleChange(e)}
-              className={`w-full px-[16px] py-[10px] text-[14px] font-medium rounded-lg bg-primary text-textcolor outline-none focus:ring-2 focus:ring-secondary ${
-                errorState.email ? 'border border-red-700' : ''
-              }`}
+              className={`w-full px-[16px] py-[10px] text-[14px] font-medium rounded-lg bg-primary text-textcolor outline-none focus:ring-2 focus:ring-secondary ${errorState.email ? 'border border-red-700' : ''
+                }`}
             />
           </div>
           <div className="relative mt-[20px] ">
@@ -206,9 +209,8 @@ const PageSignUp = () => {
               placeholder="Password"
               value={userDetails.password}
               onChange={(e) => handleChange(e)}
-              className={`w-full px-[16px] py-[10px]  text-[14px] font-medium rounded-lg bg-primary text-textcolor outline-none focus:ring-2 focus:ring-secondary ${
-                errorState.password ? 'border border-red-700' : ''
-              }`}
+              className={`w-full px-[16px] py-[10px]  text-[14px] font-medium rounded-lg bg-primary text-textcolor outline-none focus:ring-2 focus:ring-secondary ${errorState.password ? 'border border-red-700' : ''
+                }`}
             />
             <button
               type="button"
@@ -230,9 +232,8 @@ const PageSignUp = () => {
               placeholder="Re-Type Password"
               value={userDetails.confirmPassword}
               onChange={(e) => handleChange(e)}
-              className={`w-full px-[16px] py-[10px] text-[14px] font-medium rounded-lg bg-primary text-textcolor outline-none focus:ring-2 focus:ring-secondary ${
-                errorState.confirmPassword ? 'border border-red-700' : ''
-              }`}
+              className={`w-full px-[16px] py-[10px] text-[14px] font-medium rounded-lg bg-primary text-textcolor outline-none focus:ring-2 focus:ring-secondary ${errorState.confirmPassword ? 'border border-red-700' : ''
+                }`}
             />
             <button
               type="button"
@@ -272,7 +273,7 @@ const PageSignUp = () => {
           )}
 
         </form>
-        <BackToLogin/>
+        <BackToLogin />
       </div>
     </AuthBaseLayout>
   );

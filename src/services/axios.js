@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 // const baseURL = import.meta.env.VITE_API_URL;
 
 const baseURL = "http://89.116.121.48:3008/v1" //pet vet staging server
+// const baseURL = "http://localhost:3001/v1" //pet vet staging server
 
 const axiosApi = axios.create({
   baseURL,

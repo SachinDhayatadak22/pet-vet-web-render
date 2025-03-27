@@ -4,13 +4,13 @@ import { useLocation } from 'react-router-dom';
 import Loader from './common/Loader';
 import MainRouter from './routes';
 import { axiosApi } from './services/axios';
-import { addUserAction, loginUser } from './reducers/userSlice';
+import { addAdminAction, addVetAction , loginUser } from './reducers/userSlice';
 import { useDispatch } from 'react-redux';
 
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const { pathname } = useLocation();
+  const { pathname } = useLocation();  
   const dispatch = useDispatch()
  
   useEffect(() => {
@@ -22,15 +22,19 @@ function App() {
   }, []);
 
   
-  const  getCurrentUser = async () => {
-    const token = localStorage.getItem('refreshToken')
-    console.log("token",token);
-    
-    await dispatch(addUserAction(token)).unwrap();
+  const  getCurrentAdmin = async () => {
+    const token = localStorage.getItem('accesstoken')
+    await dispatch(addAdminAction(token)).unwrap();
+  }
+
+  const  getCurrentVet = async () => {
+    const token = localStorage.getItem('accesstoken')
+    await dispatch(addVetAction(token)).unwrap();
   }
 
   useEffect(() => {
-    getCurrentUser()
+    getCurrentAdmin()
+    getCurrentVet()
   }, [])
 
   return loading ? (

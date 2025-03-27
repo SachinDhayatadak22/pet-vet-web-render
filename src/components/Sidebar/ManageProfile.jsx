@@ -29,7 +29,7 @@ const ManageProfile = () => {
                         className="bg-primary2 cursor-pointer rounded-lg py-[5px] flex items-center justify-center pl-[5px] pr-[14px] gap-5 w-full"
                     >
                         <img src={userPic} alt="userPic" className="h-[32px] w-[32px]" />
-                        <span className='text-textsecondary text-sm'>Roman Clinic</span>
+                        <span className='text-textsecondary text-sm'>{user?.clinicname || user?.fullname}</span>
                         <img src={arrowDown} alt="arrowDown" />
                     </div>
                 </div>

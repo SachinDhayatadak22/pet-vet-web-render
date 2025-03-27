@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux';
 
 import AuthRequired from '../common/authRequired';
 import Unauthorized from '../common/unAuthorized';
+import VerifyEmailRegistration from '../pages/Authentication/VerifyEmailRegistration'
 import PageForgetPasswordEmail from '../pages/Authentication/PageForgetPasswordEmail';
 import PageForgetPasswordOTP from '../pages/Authentication/PageForgetPasswordOTP';
 import PageResetPassword from '../pages/Authentication/PageResetPassword';
@@ -29,7 +30,7 @@ import AddVets from '../pages/AddVets/index.jsx';
 import VetProfile from '../pages/VetProfile/index.jsx';
 import VetsList from '../pages/VetsList.jsx';
 
-const userProtectedRoutes = [
+const AdminProtectedRoutes = [
   {
     path: '',
     component: <Home />,
@@ -92,10 +93,10 @@ const userProtectedRoutes = [
   }
 ];
 
-const AdminProtectedRoutes = [
+const userProtectedRoutes = [
   {
     path: '',
-    component: <Dashboard />,  // add here admin Dashboard component
+    component: <Dashboard />,
     title: 'Admin Dashboard | Pet Vet',
   },
   {
@@ -106,20 +107,22 @@ const AdminProtectedRoutes = [
 
 ];
 
+
+
 const publicRoutes = [
   {
-    path: '/',
-    component: <PageLogin mode="vet"/>,
+    path: '/login/admin',
+    component: <PageLogin mode="admin" />,
     title: 'Sign in | Pet Vet',
   },
   {
     path: '/login',
-    component: <PageLogin mode="vet"/>,
+    component: <PageLogin mode="vet" />,
     title: 'Sign in | Pet Vet',
   },
   {
-    path: '/login/admin',
-    component: <PageLogin mode="admin" />,
+    path: '/',
+    component: <PageLogin mode="nurse" />,
     title: 'Sign in | Pet Vet',
   },
   {
@@ -129,17 +132,22 @@ const publicRoutes = [
   },
   {
     path: "/forget-password",
-    component: <PageForgetPasswordEmail/>,
+    component: <PageForgetPasswordEmail />,
     title: ' Forget Password Email |  Pet Vet'
   },
   {
+    path: `/verify-email-registration/:token`,
+    component: <VerifyEmailRegistration />,
+    title: ' Verify Email |  Pet Vet'
+  },
+  {
     path: `/verify-code/:token`,
-    component: <PageForgetPasswordOTP/>,
+    component: <PageForgetPasswordOTP />,
     title: ' Forget Password Code  |  Pet Vet'
   },
   {
     path: "/reset-password/:token",
-    component: <PageResetPassword/>,
+    component: <PageResetPassword />,
     title: ' Reset Password |  Pet Vet'
   },
 ];
@@ -154,8 +162,8 @@ function MainRouter() {
     }
   }, [user])
 
-  
-  const isRoutePresent = (routes, path,userRole) => routes.some((route) => {
+
+  const isRoutePresent = (routes, path, userRole) => routes.some((route) => {
     return route.path === path && user?.role === userRole;
   });
 
@@ -163,48 +171,48 @@ function MainRouter() {
     <>
       <DefaultLayout>
         <Routes>
-        {publicRoutes.map((route, key) => (
-          <Route
-            key={key}
-            path={route.path}
-            element={
-              <>
-                <PageTitle title={route.title} />
-                {route.component}
-              </>
-            }
-          />
-        ))}
+          {publicRoutes.map((route, key) => (
+            <Route
+              key={key}
+              path={route.path}
+              element={
+                <>
+                  <PageTitle title={route.title} />
+                  {route.component}
+                </>
+              }
+            />
+          ))}
           {userData?.role === 'admin'
             ? AdminProtectedRoutes.map((route, key) => (
-                <Route
-                  key={key}
-                  path={route.path}
-                  element={
-                    <AuthRequired>
-                      <>
-                        <PageTitle title={route.title} />
-                        {route.component}
-                      </>
-                    </AuthRequired>
-                  }
-                />
-              ))
+              <Route
+                key={key}
+                path={route.path}
+                element={
+                  <AuthRequired>
+                    <>
+                      <PageTitle title={route.title} />
+                      {route.component}
+                    </>
+                  </AuthRequired>
+                }
+              />
+            ))
             : userProtectedRoutes.map((route, key) => (
-                <Route
-                  key={key}
-                  path={route.path}
-                  element={
-                    <AuthRequired path={route.path}>
-                      <>
-                        <PageTitle title={route.title} />
-                        <Outlet />
-                        {route.component}
-                      </>
-                    </AuthRequired>
-                  }
-                />
-              ))}
+              <Route
+                key={key}
+                path={route.path}
+                element={
+                  <AuthRequired path={route.path}>
+                    <>
+                      <PageTitle title={route.title} />
+                      <Outlet />
+                      {route.component}
+                    </>
+                  </AuthRequired>
+                }
+              />
+            ))}
 
           <Route
             path="*"
@@ -215,11 +223,11 @@ function MainRouter() {
                 window.location.pathname,
                 'user',
               ) ||
-              !isRoutePresent(
-                AdminProtectedRoutes,
-                window.location.pathname,
-                'admin',
-              ) ? (
+                !isRoutePresent(
+                  AdminProtectedRoutes,
+                  window.location.pathname,
+                  'admin',
+                ) ? (
                 <Unauthorized />
               ) : (
                 <h1>404 - Page Not Found</h1>

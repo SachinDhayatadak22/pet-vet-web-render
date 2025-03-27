@@ -7,10 +7,10 @@ import deleteIcon from "../../images/icon/delete_icon.svg";
 
 const TableProvider = ({ tableName = "", columnNames = [], tableData = [] }) => {
 
-    const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    const capitalize = str => str?.charAt(0)?.toUpperCase() + str?.slice(1)?.toLowerCase();
 
     const [statuses, setStatuses] = useState(
-        tableData.map(row => capitalize(row.status))
+        tableData.map(row => capitalize(row?.status))
     );
 
     const [dropdownOpen, setDropdownOpen] = useState(null);

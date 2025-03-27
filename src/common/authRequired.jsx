@@ -1,17 +1,19 @@
-import { useLocation, Navigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { useLocation, Navigate } from "react-router-dom";
 
 function AuthRequired({ children }) {
+  const [accessToken, setAccessToken] = useState(localStorage.getItem("accesstoken"));
+  const location = useLocation();
 
-  let accessToken = localStorage.getItem('accesstoken')
-  let location = useLocation();
+  useEffect(() => {
+    setAccessToken(localStorage.getItem("accesstoken"));
+  }, [location]);
 
   if (!accessToken) {
     return <Navigate to="/login" state={{ from: location }} replace />;
-  } else if(children)  {
-      return children;
-  }else{
-    return <h1 style={{display:"flex",justifyItems:"center", alignItems:"center", color:"black"}}>Un authorised</h1>
   }
+
+  return children || <h1 style={{ display: "flex", justifyContent: "center", alignItems: "center", color: "black" }}>Unauthorized</h1>;
 }
 
 export default AuthRequired;

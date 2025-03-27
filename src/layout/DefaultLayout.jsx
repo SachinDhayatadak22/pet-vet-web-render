@@ -4,7 +4,7 @@ import Sidebar from '../components/Sidebar/index';
 import Header from '../components/Header/index.jsx';
 
 const EXCLUDED_PATHS = [
-  "/", "/login", "/login/admin", "/signup", "/admin-login", "/admin-signup", "/forget-password",
+  "/", "/login", "/login/admin", "/signup", "/admin-login", "/forget-password",
   "/forget-password-email", "/forget-password-otp", "/reset-password"
 ];
 
@@ -13,6 +13,7 @@ const DefaultLayout = ({ children }) => {
   const location = useLocation();
   const isExcluded = EXCLUDED_PATHS.includes(location.pathname) ||
     location.pathname.startsWith("/verify-code/") ||
+    location.pathname.startsWith("/verify-email-registration/") ||
     location.pathname.startsWith("/reset-password/");
 
   return (
